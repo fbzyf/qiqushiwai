@@ -2,22 +2,14 @@
 
 import { motion } from 'framer-motion'
 
-// 添加头像占位组件
-function AvatarPlaceholder({ name }: { name: string }) {
-  // 从名字生成不同的背景色
-  const colors = ['bg-primary/20', 'bg-secondary/20', 'bg-accent1/20']
-  const index = name.length % colors.length
-  
-  return (
-    <div className={`${colors[index]} w-24 h-24 rounded-full flex items-center justify-center mb-4 mx-auto`}>
-      <span className="text-2xl font-bold text-primary">
-        {name.slice(0, 1)}
-      </span>
-    </div>
-  )
+type TeamMember = {
+  name: string
+  role: string
+  description: string
+  expertise?: string
 }
 
-const teamMembers = [
+const teamMembers: TeamMember[] = [
   {
     name: "陈哲宇",
     role: "联合CEO",
@@ -128,7 +120,7 @@ const aboutSections = [
     ]
   },
   {
-    title: "我们的团队",
+    title: "我��的团队",
     content: "年轻而充满活力的团队，用创新思维推动教育游戏的发展。",
     teamPhoto: true
   },
@@ -248,7 +240,6 @@ export function AboutUs() {
                       whileHover={{ y: -5 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <AvatarPlaceholder name={member.name} />
                       <h3 className="font-semibold text-lg mb-1">{member.name}</h3>
                       <p className="text-primary mb-2">{member.role}</p>
                       <p className="text-gray-600 text-sm mb-2">{member.description}</p>
