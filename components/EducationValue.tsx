@@ -4,75 +4,60 @@ import { motion } from 'framer-motion'
 
 const educationValues = [
   {
-    title: "思维培养",
-    description: "通过游戏培养孩子的逻辑思维和决策能力",
-    details: [
-      {
-        subtitle: "逻辑思维",
-        content: "在游戏过程中，孩子需要思考每一步棋的影响，培养逻辑推理能力。",
-        examples: ["分析局势", "预判对手", "制定策略"]
-      },
-      {
-        subtitle: "决策能力",
-        content: "面对多种选择时，需要权衡利弊，做出最优决策。",
-        examples: ["资源分配", "风险评估", "战术选择"]
-      }
-    ]
+    title: "思维发展",
+    content: [
+      "培养逻辑思维能力",
+      "提升战略规划能力",
+      "锻炼空间想象力",
+      "增强记忆力和专注力"
+    ],
+    icon: "🧠",
+    delay: 0
   },
   {
-    title: "社交互动",
-    description: "增进亲子关系，培养社交能力",
-    details: [
-      {
-        subtitle: "亲子互动",
-        content: "通过游戏创造优质的亲子时光，增进感情。",
-        examples: ["共同游戏", "互相学习", "分享快乐"]
-      },
-      {
-        subtitle: "团队协作",
-        content: "在多人游戏中学习与他人合作，培养团队精神。",
-        examples: ["角色分工", "沟通协调", "共同目标"]
-      }
-    ]
+    title: "情商培养",
+    content: [
+      "学会面对胜负",
+      "培养耐心和毅力",
+      "提升抗挫折能力",
+      "建立自信心"
+    ],
+    icon: "❤️",
+    delay: 0.1
   },
   {
-    title: "文化传承",
-    description: "了解传统文化，培养文化自信",
-    details: [
-      {
-        subtitle: "文化认知",
-        content: "通过游戏了解中国传统棋类文化的精髓。",
-        examples: ["历史渊源", "文化内涵", "智慧传承"]
-      },
-      {
-        subtitle: "创新发展",
-        content: "在传统基础上融入现代元素，创新发展。",
-        examples: ["现代诠释", "创意融合", "玩法创新"]
-      }
-    ]
+    title: "社交能力",
+    content: [
+      "促进亲子互动",
+      "培养团队合作",
+      "提升沟通能力",
+      "学会尊重对手"
+    ],
+    icon: "🤝",
+    delay: 0.2
+  }
+]
+
+const researchData = [
+  {
+    percentage: 85,
+    description: "的孩子在使用我们的产品后，逻辑思维能力有显著提升"
   },
   {
-    title: "公益属性",
-    description: "寓教于乐，回馈社会",
-    details: [
-      {
-        subtitle: "教育普及",
-        content: "让更多孩子通过游戏获得教育机会。",
-        examples: ["公益捐赠", "教育支持", "资源共享"]
-      },
-      {
-        subtitle: "社会责任",
-        content: "培养孩子的社会责任感和公益意识。",
-        examples: ["环保材质", "公益项目", "社会关怀"]
-      }
-    ]
+    percentage: 90,
+    description: "的家长认为产品对孩子的学习和发展有积极影响"
+  },
+  {
+    percentage: 95,
+    description: "的教育工作者推荐将棋类游戏融入儿童教育"
   }
 ]
 
 export function EducationValue() {
   return (
-    <section className="py-16 bg-gradient-to-b from-white to-gray-50">
+    <div className="py-16 bg-gradient-to-b from-white to-gray-50">
       <div className="container mx-auto px-4">
+        {/* 主标题 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -80,43 +65,56 @@ export function EducationValue() {
           className="text-center mb-16"
         >
           <h1 className="text-4xl md:text-5xl font-bold mb-4">教育价值</h1>
-          <p className="text-xl text-gray-600">寓教于乐，智趣相伴</p>
+          <p className="text-xl text-gray-600">让游戏成为成长的阶梯</p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {educationValues.map((value, index) => (
+        {/* 教育价值卡片 */}
+        <div className="grid md:grid-cols-3 gap-8 mb-20">
+          {educationValues.map((value) => (
             <motion.div
               key={value.title}
+              className="bg-white rounded-xl p-8 shadow-sm"
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              className="bg-white rounded-2xl shadow-lg p-8"
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: value.delay }}
+              viewport={{ once: true }}
             >
-              <h2 className="text-2xl font-bold text-primary mb-4">{value.title}</h2>
-              <p className="text-gray-600 mb-6">{value.description}</p>
-
-              <div className="space-y-6">
-                {value.details.map((detail) => (
-                  <div key={detail.subtitle} className="bg-gray-50 rounded-xl p-6">
-                    <h3 className="text-lg font-semibold mb-3">{detail.subtitle}</h3>
-                    <p className="text-gray-600 mb-4">{detail.content}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {detail.examples.map((example, i) => (
-                        <span
-                          key={i}
-                          className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm"
-                        >
-                          {example}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+              <div className="text-4xl mb-6">{value.icon}</div>
+              <h3 className="text-2xl font-bold mb-4">{value.title}</h3>
+              <ul className="space-y-3">
+                {value.content.map((item, index) => (
+                  <li key={index} className="flex items-center gap-3">
+                    <span className="w-2 h-2 bg-primary rounded-full" />
+                    <span className="text-gray-600">{item}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </motion.div>
           ))}
         </div>
+
+        {/* 研究数据 */}
+        <div className="bg-primary/5 rounded-2xl p-8 md:p-12">
+          <h2 className="text-3xl font-bold text-center mb-12">研究数据支持</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {researchData.map((data, index) => (
+              <motion.div
+                key={index}
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <div className="text-4xl font-bold text-primary mb-4">
+                  {data.percentage}%
+                </div>
+                <p className="text-gray-600">{data.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
   )
 } 
