@@ -5,11 +5,11 @@ import { ProductPreview } from '@/components/ProductPreview'
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <main>
       <Hero />
       <GameBoard />
       <ProductPreview />
       <Features />
-    </div>
+    </main>
   )
 } 
