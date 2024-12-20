@@ -2,14 +2,78 @@
 
 import { motion } from 'framer-motion'
 
-type TeamMember = {
+// 基础团队成员类型
+type BaseTeamMember = {
   name: string
   role: string
   description: string
-  expertise?: string
 }
 
-const teamMembers: TeamMember[] = [
+// 带专长的团队成员类型
+type ExpertTeamMember = BaseTeamMember & {
+  expertise: string
+}
+
+// 基础 Section 类型
+type BaseSection = {
+  title: string
+  content: string
+}
+
+// 不同类型的 Section
+type StorySection = BaseSection & {
+  type: 'story'
+  details: string[]
+}
+
+type MissionSection = BaseSection & {
+  type: 'mission'
+  points: Array<{
+    title: string
+    description: string
+  }>
+}
+
+type TeamPhotoSection = BaseSection & {
+  type: 'teamPhoto'
+  teamPhoto: true
+}
+
+type ManagementSection = BaseSection & {
+  type: 'management'
+  members: ExpertTeamMember[]
+}
+
+type MarketingSection = BaseSection & {
+  type: 'marketing'
+  members: BaseTeamMember[]
+}
+
+type FinanceSection = BaseSection & {
+  type: 'finance'
+  members: ExpertTeamMember[]
+}
+
+type MilestoneSection = BaseSection & {
+  type: 'milestone'
+  milestones: Array<{
+    year: string
+    event: string
+    description: string
+  }>
+}
+
+// 联合类型
+type AboutSection = 
+  | StorySection 
+  | MissionSection 
+  | TeamPhotoSection 
+  | ManagementSection 
+  | MarketingSection 
+  | FinanceSection 
+  | MilestoneSection
+
+const teamMembers: ExpertTeamMember[] = [
   {
     name: "陈哲宇",
     role: "联合CEO",
@@ -48,7 +112,7 @@ const teamMembers: TeamMember[] = [
   }
 ]
 
-const marketingTeam = [
+const marketingTeam: BaseTeamMember[] = [
   {
     name: "朱迦陵",
     role: "市场总监",
@@ -76,7 +140,7 @@ const marketingTeam = [
   }
 ]
 
-const financeTeam = [
+const financeTeam: ExpertTeamMember[] = [
   {
     name: "李昊禹",
     role: "联合CFO",
@@ -91,8 +155,9 @@ const financeTeam = [
   }
 ]
 
-const aboutSections = [
+const aboutSections: AboutSection[] = [
   {
+    type: 'story',
     title: "品牌故事",
     content: "棋趣世外源于一个简单的愿望：让孩子们在快乐中学习成长。我们深信，游戏是最好的老师，棋盘是最好的课堂。",
     details: [
@@ -102,8 +167,21 @@ const aboutSections = [
     ]
   },
   {
+    type: 'management',
+    title: "核心管理团队",
+    content: "我们的团队由来自不同领域的专业人才组成，致力于为孩子们创造优质的教育游戏产品。",
+    members: teamMembers
+  },
+  {
+    type: 'marketing',
+    title: "市场运营团队",
+    content: "专业的市场团队确保我们的产品能准确地触达目标用户，并为用户提供最佳的服务体验。",
+    members: marketingTeam
+  },
+  {
     title: "我们的使命",
     content: "通过创新的棋类游戏，激发孩子们的创造力和思维能力，让教育回归快乐本质。",
+    type: 'mission',
     points: [
       {
         title: "创新教育",
@@ -120,32 +198,26 @@ const aboutSections = [
     ]
   },
   {
-    title: "我��的团队",
+    title: "我们的团队",
     content: "年轻而充满活力的团队，用创新思维推动教育游戏的发展。",
+    type: 'teamPhoto',
     teamPhoto: true
-  },
-  {
-    title: "核心管理团队",
-    content: "我们的团队由来自不同领域的专业人才组成，致力于为孩子们创造优质的教育游戏产品。",
-    members: teamMembers
-  },
-  {
-    title: "市场运营团队",
-    content: "专业的市场团队确保我们的产品能够准确地触达目标用户，并为用户提供最佳的服务体验。",
-    members: marketingTeam
   },
   {
     title: "财务管理团队",
     content: "严谨的财务团队为项目的可持续发展提供有力保障。",
+    type: 'finance',
     members: financeTeam
   },
   {
     title: "发展历程",
+    content: "从2023年到2024年，我们经历了从品牌创立到产品发布，再到教育合作的历程。",
+    type: 'milestone',
     milestones: [
       {
         year: "2023",
         event: "品牌创立",
-        description: "团队组建，开始产品研发"
+        description: "团队组建，始品研发"
       },
       {
         year: "2024",
@@ -160,6 +232,93 @@ const aboutSections = [
     ]
   }
 ]
+
+// 完整的 renderSection 函数
+function renderSection(section: AboutSection) {
+  switch (section.type) {
+    case 'story':
+      return (
+        <ul className="space-y-2 mb-6">
+          {section.details.map((detail, i) => (
+            <li key={i} className="flex items-center text-gray-600">
+              <span className="w-2 h-2 bg-primary rounded-full mr-3"></span>
+              {detail}
+            </li>
+          ))}
+        </ul>
+      )
+
+    case 'mission':
+      return (
+        <div className="grid md:grid-cols-3 gap-6">
+          {section.points.map((point, i) => (
+            <div key={i} className="bg-gray-50 rounded-xl p-6">
+              <h3 className="font-semibold text-lg mb-2">{point.title}</h3>
+              <p className="text-gray-600">{point.description}</p>
+            </div>
+          ))}
+        </div>
+      )
+
+    case 'management':
+    case 'finance':
+      return (
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {section.members.map((member: ExpertTeamMember, i) => (
+            <motion.div
+              key={i}
+              className="bg-gray-50 rounded-xl p-6 text-center"
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <h3 className="font-semibold text-lg mb-1">{member.name}</h3>
+              <p className="text-primary mb-2">{member.role}</p>
+              <p className="text-gray-600 text-sm mb-2">{member.description}</p>
+              <p className="text-gray-600 text-sm italic">{member.expertise}</p>
+            </motion.div>
+          ))}
+        </div>
+      )
+    
+    case 'marketing':
+      return (
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {section.members.map((member: BaseTeamMember, i) => (
+            <motion.div
+              key={i}
+              className="bg-gray-50 rounded-xl p-6 text-center"
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <h3 className="font-semibold text-lg mb-1">{member.name}</h3>
+              <p className="text-primary mb-2">{member.role}</p>
+              <p className="text-gray-600 text-sm mb-2">{member.description}</p>
+            </motion.div>
+          ))}
+        </div>
+      )
+
+    case 'milestone':
+      return (
+        <div className="space-y-6">
+          {section.milestones.map((milestone, i) => (
+            <div key={i} className="flex items-start">
+              <div className="bg-primary/10 text-primary px-4 py-2 rounded-lg mr-4 font-semibold">
+                {milestone.year}
+              </div>
+              <div>
+                <h3 className="font-semibold mb-1">{milestone.event}</h3>
+                <p className="text-gray-600">{milestone.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )
+    
+    default:
+      return null
+  }
+}
 
 export function AboutUs() {
   return (
@@ -209,63 +368,7 @@ export function AboutUs() {
                 </motion.div>
               )}
 
-              {section.details && (
-                <ul className="space-y-2 mb-6">
-                  {section.details.map((detail, i) => (
-                    <li key={i} className="flex items-center text-gray-600">
-                      <span className="w-2 h-2 bg-primary rounded-full mr-3"></span>
-                      {detail}
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {section.points && (
-                <div className="grid md:grid-cols-3 gap-6">
-                  {section.points.map((point, i) => (
-                    <div key={i} className="bg-gray-50 rounded-xl p-6">
-                      <h3 className="font-semibold text-lg mb-2">{point.title}</h3>
-                      <p className="text-gray-600">{point.description}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {section.members && (
-                <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {section.members.map((member, i) => (
-                    <motion.div
-                      key={i}
-                      className="bg-gray-50 rounded-xl p-6 text-center"
-                      whileHover={{ y: -5 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <h3 className="font-semibold text-lg mb-1">{member.name}</h3>
-                      <p className="text-primary mb-2">{member.role}</p>
-                      <p className="text-gray-600 text-sm mb-2">{member.description}</p>
-                      {member.expertise && (
-                        <p className="text-gray-600 text-sm italic">{member.expertise}</p>
-                      )}
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-
-              {section.milestones && (
-                <div className="space-y-6">
-                  {section.milestones.map((milestone, i) => (
-                    <div key={i} className="flex items-start">
-                      <div className="bg-primary/10 text-primary px-4 py-2 rounded-lg mr-4 font-semibold">
-                        {milestone.year}
-                      </div>
-                      <div>
-                        <h3 className="font-semibold mb-1">{milestone.event}</h3>
-                        <p className="text-gray-600">{milestone.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+              {renderSection(section)}
             </motion.div>
           ))}
         </div>
