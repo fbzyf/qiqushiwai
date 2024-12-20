@@ -2,167 +2,21 @@
 
 import { motion } from 'framer-motion'
 
-// 基础团队成员类型
-type BaseTeamMember = {
-  name: string
-  role: string
-  description: string
-}
-
-// 带专长的团队成员类型
-type ExpertTeamMember = BaseTeamMember & {
-  expertise: string
-}
-
-// 基础 Section 类型
-type BaseSection = {
-  title: string
-  content: string
-}
-
-// 不同类型的 Section
-type StorySection = BaseSection & {
-  type: 'story'
-  details: string[]
-}
-
-type MissionSection = BaseSection & {
-  type: 'mission'
-  points: Array<{
-    title: string
-    description: string
-  }>
-}
-
-type TeamPhotoSection = BaseSection & {
-  type: 'teamPhoto'
-  teamPhoto: true
-}
-
-type ManagementSection = BaseSection & {
-  type: 'management'
-  members: ExpertTeamMember[]
-}
-
-type MarketingSection = BaseSection & {
-  type: 'marketing'
-  members: BaseTeamMember[]
-}
-
-type FinanceSection = BaseSection & {
-  type: 'finance'
-  members: ExpertTeamMember[]
-}
-
-type MilestoneSection = BaseSection & {
-  type: 'milestone'
-  milestones: Array<{
-    year: string
-    event: string
-    description: string
-  }>
-}
-
-// 联合类型
 type AboutSection = {
   title: string
   content: string
-  type: 'story' | 'mission' | 'team' | 'management' | 'marketing' | 'finance' | 'milestone'
-  teamPhoto?: boolean
+  type: 'story' | 'mission' | 'milestone'
   details?: string[]
   points?: Array<{
     title: string
     description: string
   }>
-  members?: BaseTeamMember[] | ExpertTeamMember[]
   milestones?: Array<{
     year: string
     event: string
     description: string
   }>
 }
-
-const teamMembers: ExpertTeamMember[] = [
-  {
-    name: "陈哲宇",
-    role: "联合CEO",
-    description: "负责项目统筹与协调",
-    expertise: "项目执行与决策"
-  },
-  {
-    name: "曹锦灏",
-    role: "联合CEO",
-    description: "负责各环节反馈与推进",
-    expertise: "团队管理"
-  },
-  {
-    name: "许家铭",
-    role: "联合COO",
-    description: "负责项目管理与监督",
-    expertise: "资源调度"
-  },
-  {
-    name: "沈泖",
-    role: "联合COO",
-    description: "负责制定计划与分配",
-    expertise: "项目管理"
-  },
-  {
-    name: "郭纾墨",
-    role: "CPO",
-    description: "负责产品设计和生产",
-    expertise: "产品研发"
-  },
-  {
-    name: "刘哲修",
-    role: "CTO",
-    description: "负责技术支撑",
-    expertise: "技术开发"
-  }
-]
-
-const marketingTeam: BaseTeamMember[] = [
-  {
-    name: "朱迦陵",
-    role: "市场总监",
-    description: "负责项目市场定位"
-  },
-  {
-    name: "陈语熙",
-    role: "营销经理",
-    description: "负责营销战略"
-  },
-  {
-    name: "袁梓峻",
-    role: "运营总监",
-    description: "负责运营实施"
-  },
-  {
-    name: "汪子然",
-    role: "销售经理",
-    description: "负责销售推广"
-  },
-  {
-    name: "任宸纬",
-    role: "市场专员",
-    description: "负责市场分析"
-  }
-]
-
-const financeTeam: ExpertTeamMember[] = [
-  {
-    name: "李昊禹",
-    role: "联合CFO",
-    description: "负责投融资方案",
-    expertise: "财务分析"
-  },
-  {
-    name: "缪德馨",
-    role: "联合CFO",
-    description: "负责成本控制",
-    expertise: "财务管理"
-  }
-]
 
 const aboutSections: AboutSection[] = [
   {
@@ -174,18 +28,6 @@ const aboutSections: AboutSection[] = [
       "专注儿童教育游戏开发",
       "致力于传统文化创新"
     ]
-  },
-  {
-    type: 'management',
-    title: "核心管理团队",
-    content: "我们的团队由来自不同领域的专业人才组成，致力于为孩子们创造优质的教育游戏产品。",
-    members: teamMembers
-  },
-  {
-    type: 'marketing',
-    title: "市场运营团队",
-    content: "专业的市场团队确保我们的产品能准确地触达目标用户，并为用户提供最佳的服务体验。",
-    members: marketingTeam
   },
   {
     title: "我们的使命",
@@ -207,18 +49,6 @@ const aboutSections: AboutSection[] = [
     ]
   },
   {
-    title: "我们的团队",
-    content: "年轻而充满活力的团队，用创新思维推动教育游戏的发展。",
-    type: 'teamPhoto',
-    teamPhoto: true
-  },
-  {
-    title: "财务管理团队",
-    content: "严谨的财务团队为项目的可持续发展提供有力保障。",
-    type: 'finance',
-    members: financeTeam
-  },
-  {
     title: "发展历程",
     content: "从2023年到2024年，我们经历了从品牌创立到产品发布，再到教育合作的历程。",
     type: 'milestone',
@@ -226,7 +56,7 @@ const aboutSections: AboutSection[] = [
       {
         year: "2023",
         event: "品牌创立",
-        description: "团队组建，始品研发"
+        description: "团队组建，开始产品研发"
       },
       {
         year: "2024",
@@ -242,7 +72,6 @@ const aboutSections: AboutSection[] = [
   }
 ]
 
-// 完整的 renderSection 函数
 function renderSection(section: AboutSection) {
   switch (section.type) {
     case 'story':
@@ -258,7 +87,7 @@ function renderSection(section: AboutSection) {
       )
 
     case 'mission':
-      return (
+      return section.points && (
         <div className="grid md:grid-cols-3 gap-6">
           {section.points.map((point, i) => (
             <div key={i} className="bg-gray-50 rounded-xl p-6">
@@ -269,46 +98,8 @@ function renderSection(section: AboutSection) {
         </div>
       )
 
-    case 'management':
-    case 'finance':
-      return (
-        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {section.members.map((member: ExpertTeamMember, i) => (
-            <motion.div
-              key={i}
-              className="bg-gray-50 rounded-xl p-6 text-center"
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.2 }}
-            >
-              <h3 className="font-semibold text-lg mb-1">{member.name}</h3>
-              <p className="text-primary mb-2">{member.role}</p>
-              <p className="text-gray-600 text-sm mb-2">{member.description}</p>
-              <p className="text-gray-600 text-sm italic">{member.expertise}</p>
-            </motion.div>
-          ))}
-        </div>
-      )
-    
-    case 'marketing':
-      return (
-        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {section.members.map((member: BaseTeamMember, i) => (
-            <motion.div
-              key={i}
-              className="bg-gray-50 rounded-xl p-6 text-center"
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.2 }}
-            >
-              <h3 className="font-semibold text-lg mb-1">{member.name}</h3>
-              <p className="text-primary mb-2">{member.role}</p>
-              <p className="text-gray-600 text-sm mb-2">{member.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      )
-
     case 'milestone':
-      return (
+      return section.milestones && (
         <div className="space-y-6">
           {section.milestones.map((milestone, i) => (
             <div key={i} className="flex items-start">
@@ -323,9 +114,6 @@ function renderSection(section: AboutSection) {
           ))}
         </div>
       )
-    
-    default:
-      return null
   }
 }
 
@@ -356,25 +144,6 @@ export function AboutUs() {
               
               {section.content && (
                 <p className="text-gray-600 mb-6 text-lg">{section.content}</p>
-              )}
-
-              {section.teamPhoto && (
-                <motion.div 
-                  className="relative aspect-[16/9] rounded-xl overflow-hidden mb-8"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
-                  <img
-                    src="/images/team/team-photo.jpg"
-                    alt="棋趣世外团队"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-20">
-                    <p className="text-lg font-medium">棋趣世外团队</p>
-                    <p className="text-sm opacity-80">用创新思维，创造教育的无限可能</p>
-                  </div>
-                </motion.div>
               )}
 
               {renderSection(section)}
