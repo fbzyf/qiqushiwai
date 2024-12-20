@@ -64,14 +64,23 @@ type MilestoneSection = BaseSection & {
 }
 
 // 联合类型
-type AboutSection = 
-  | StorySection 
-  | MissionSection 
-  | TeamPhotoSection 
-  | ManagementSection 
-  | MarketingSection 
-  | FinanceSection 
-  | MilestoneSection
+type AboutSection = {
+  title: string
+  content: string
+  type: 'story' | 'mission' | 'team' | 'management' | 'marketing' | 'finance' | 'milestone'
+  teamPhoto?: boolean
+  details?: string[]
+  points?: Array<{
+    title: string
+    description: string
+  }>
+  members?: BaseTeamMember[] | ExpertTeamMember[]
+  milestones?: Array<{
+    year: string
+    event: string
+    description: string
+  }>
+}
 
 const teamMembers: ExpertTeamMember[] = [
   {
@@ -237,7 +246,7 @@ const aboutSections: AboutSection[] = [
 function renderSection(section: AboutSection) {
   switch (section.type) {
     case 'story':
-      return (
+      return section.details && (
         <ul className="space-y-2 mb-6">
           {section.details.map((detail, i) => (
             <li key={i} className="flex items-center text-gray-600">
